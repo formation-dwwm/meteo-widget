@@ -1,5 +1,4 @@
 const $cityName = document.getElementById("city-name"),
-      $currentDate = document.getElementById("current-date"),
       $currentConditionIcon = document.getElementById("current-condition-icon"),
       $currentConditionLabel = document.getElementById("current-condition-label"),
       $currentTemp = document.getElementById("current-temp"),
@@ -15,7 +14,6 @@ function updateWeather(cityName){
 function updateView(data){
   // Update current conditions
   $cityName.textContent = data.city_info.name;
-  $currentDate.textContent = data.current_condition.date;
   $currentTemp.textContent = data.current_condition.tmp;
   $currentConditionLabel.textContent = data.current_condition.condition;
   $currentConditionIcon.setAttribute("src", data.current_condition.icon);
@@ -39,9 +37,11 @@ function createForecastItemHtml(data, dayNum){
   return `
 <li class="forecast-item">
   <span class="date">${data.day_long}</span>
-  <img class="icon" src="${data.icon}"/>
-  <span class="temp temp-max">${data.tmax}</span>
-  <span class="temp temp-min">${data.tmin}</span>
+  <div class="fixed-width icon">
+    <img src="${data.icon}"/>
+  </div>
+  <span class="fixed-width temp temp-max">${data.tmax}</span>
+  <span class="fixed-width temp temp-min">${data.tmin}</span>
 </li>
   `;
 }

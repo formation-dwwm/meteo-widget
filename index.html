@@ -1,25 +1,31 @@
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Météo</title>
+    <link href="style.css" rel="stylesheet"/>
   </head>
   <body>
-    <section class="current-conditions">
-      <div id="city-name"></div>
-      <div id="current-date"></div>
-      <figure>
-        <img id="current-condition-icon"/>
-        <figcaption id="current-condition-label"></figcaption>
-      </figure>
-      <div id="current-temp"></div>
-    </section>
-    <section class="forecast">
-      <ul id="forecast-list">
-
-      </ul>
-    </section>
+    <main class="weather right-ribbon">
+      <section class="current-conditions">
+        <div id="city-name"></div>
+        <div class="conditions-wrapper">
+          <figure>
+            <img id="current-condition-icon"/>
+            <figcaption id="current-condition-label"></figcaption>
+          </figure>
+          <div class="current-temp-wrapper right-ribbon">
+            <span id="current-temp"></span>
+          </div>
+        </div>
+      </section>
+      <section class="forecast">
+        <ul id="forecast-list">
+  
+        </ul>
+      </section>
+    </main>
 
     <script src="app.js"></script>
   </body>
