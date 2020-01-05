@@ -1,3 +1,80 @@
+type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW";
+type DayShort = "Lun." | "Mar." | "Mer." | "Jeu." | "Ven." | "Sam." | "Dim.";
+type DayLong = "Lundi" | "Mardi" | "Mercredi" | "Jeudi" | "Vendredi" | "Samedi" | "Dimanche";
+type Condition = "Ensoleillé" 
+  | "Nuit claire"
+  | "Ciel voilé"
+  | "Nuit légèrement voilée"
+  | "Faibles passages nuageux"
+  | "Nuit bien dégagée"
+  | "Brouillard"
+  | "Stratus"
+  | "Stratus se dissipant"
+  | "Nuit claire et stratus"
+  | "Eclaircies"
+  | "Nuit nuageuse"
+  | "Faiblement nuageux"
+  | "Fortement nuageux"
+  | "Averses de pluie faible"
+  | "Nuit avec averses"
+  | "Averses de pluie modérée"
+  | "Averses de pluie forte"
+  | "Couvert avec averses"
+  | "Pluie faible"
+  | "Pluie forte"
+  | "Pluie modérée"
+  | "Développement nuageux"
+  | "Nuit avec développement nuageux"
+  | "Faiblement orageux"
+  | "Nuit faiblement orageuse"
+  | "Orage modéré"
+  | "Fortement orageux"
+  | "Averses de neige faible"
+  | "Nuit avec averses de neige faible"
+  | "Neige faible"
+  | "Neige modérée"
+  | "Neige forte"
+  | "Pluie et neige mêlée faible"
+  | "Pluie et neige mêlée modérée"
+  | "Pluie et neige mêlée forte";
+
+type ConditionKey = "ensoleille"
+    | "nuit-claire"
+    | "ciel-voile"
+    | "nuit-legèrement-voilee"
+    | "faibles-passages-nuageux"
+    | "nuit-bien-degagee"
+    | "brouillard"
+    | "stratus"
+    | "stratus-se-dissipant"
+    | "nuit-claire-et-stratus"
+    | "eclaircies"
+    | "nuit-nuageuse"
+    | "faiblement-nuageux"
+    | "fortement-nuageux"
+    | "averses-de-pluie-faible"
+    | "nuit-avec-averses"
+    | "averses-de-pluie-moderee"
+    | "averses-de-pluie-forte"
+    | "couvert-avec-averses"
+    | "pluie-faible"
+    | "pluie-forte"
+    | "pluie-moderee"
+    | "developpement-nuageux"
+    | "nuit-avec-developpement-nuageux"
+    | "faiblement-orageux"
+    | "nuit-faiblement-orageuse"
+    | "orage-modere"
+    | "fortement-orageux"
+    | "averses-de-neige-faible"
+    | "nuit-avec-averses-de-neige-faible"
+    | "neige-faible"
+    | "neige-moderee"
+    | "neige-forte"
+    | "pluie-et-neige-melee-faible"
+    | "pluie-et-neige-melee-moderee"
+    | "pluie-et-neige-melee-forte";
+
 interface ICityInfoData {
   name: string;
   country: string;
@@ -20,19 +97,19 @@ interface ICurrentConditionsData {
   tmp: number;
   wnd_spd: number;
   wnd_gust: number;
-  wnd_dir: string;
+  wnd_dir: WindDirection;
   pressure: number;
   humidity: number;
-  condition: string;
-  condition_key: string;
+  condition: Condition;
+  condition_key: ConditionKey;
   icon: string;
   icon_big: string;
 }
 
 interface IForecastHourData {
   ICON: string;
-  CONDITION: string;
-  CONDITION_KEY: string;
+  CONDITION: Condition;
+  CONDITION_KEY: ConditionKey;
   TMP2m: number;
   DPT2m: number;
   WINDCHILL2m: number;
@@ -42,7 +119,7 @@ interface IForecastHourData {
   WNDSPD10m: number;
   WNDGUST10m: number;
   WNDDIR10m: number;
-  string;
+  WNDDIRCARD10: WindDirection;
   ISSNOW: number;
   HCDC: string;
   MCDC: string;
@@ -82,12 +159,12 @@ interface IHourlyData {
 
 interface IForecastDayData {
   date: string;
-  day_short: string;
-  day_long: string;
+  day_short: DayShort;
+  day_long: DayLong;
   tmin: number;
   tmax: number;
-  condition: string;
-  condition_key: string;
+  condition: Condition;
+  condition_key: ConditionKey;
   icon: string;
   icon_big: string;
   hourly_data: IHourlyData;
