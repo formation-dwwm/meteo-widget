@@ -1,4 +1,4 @@
-import { IWeatherData, IForecastDayData } from './WeatherData';
+import { IWeatherData, IForecastDayData, ICurrentConditionsData, IHourlyData, IForecastHourData } from './WeatherData';
 import JSXFactory from './JSXFactory.js';
 
 class MeteoWidget extends HTMLElement {
@@ -9,6 +9,7 @@ class MeteoWidget extends HTMLElement {
   protected $cityName: HTMLElement;
   protected $currentConditionLabel: HTMLElement;
   protected $currentTemp: HTMLElement;
+  protected $dayTimeline: HTMLElement;
   protected $forecastList: HTMLElement;
   protected $currentConditionIcon: HTMLImageElement;
 
@@ -51,6 +52,7 @@ class MeteoWidget extends HTMLElement {
     this.$currentConditionIcon = this.root.querySelector("#current-condition-icon");
     this.$currentConditionLabel = this.root.querySelector("#current-condition-label");
     this.$currentTemp = this.root.querySelector("#current-temp");
+    this.$dayTimeline = this.root.querySelector(".day-timeline");
     this.$forecastList = this.root.querySelector("#forecast-list");
   }
 
@@ -69,7 +71,16 @@ class MeteoWidget extends HTMLElement {
     this.$currentConditionLabel.textContent = data.current_condition.condition;
     this.$currentConditionIcon.setAttribute("src", data.current_condition.icon);
   
+    this.updateTimelineView(data.fcst_day_0.hourly_data);
+
     this.updateForecastView(data);
+  }
+
+  protected updateTimelineView(data: IHourlyData){
+    this.$dayTimeline.innerHTML = 
+      Object.keys(data)
+        .map((hourKey: string) => this.createDayHourItemHtml(hourKey, data[hourKey]))
+        .join('');
   }
   
   protected updateForecastView(data: IWeatherData): void {
@@ -83,16 +94,28 @@ class MeteoWidget extends HTMLElement {
   
     this.$forecastList.innerHTML = html;
   }
+
+  protected createDayHourItemHtml(hourKey: string, hourData: IForecastHourData): string {
+    return (
+    <div class="hour-item">
+      <div class="fixed-width icon">
+        <img src={hourData.ICON} title={hourData.CONDITION} alt={hourData.CONDITION}/>
+      </div>
+      <div class="temp">{hourData.TMP2m}°C</div>
+      <div class="hour">{hourKey}</div>
+    </div>
+    );
+  }
   
-  protected createForecastItemHtml(data: IForecastDayData, dayNum: number): string {
+  protected createForecastItemHtml(dayData: IForecastDayData, dayNum: number): string {
     return (
       <li class="forecast-item">
-        <span class="date">{data.day_long}</span>
+        <span class="date">{dayData.day_long}</span>
         <div class="fixed-width icon">
-          <img src={data.icon}/>
+          <img src={dayData.icon} title={dayData.condition} alt={dayData.condition}/>
         </div>
-        <span class="fixed-width temp temp-max">{data.tmax}</span>
-        <span class="fixed-width temp temp-min">{data.tmin}</span>
+        <span class="fixed-width temp temp-max">{dayData.tmax}</span>
+        <span class="fixed-width temp temp-min">{dayData.tmin}</span>
       </li>
     );
   }
@@ -114,6 +137,9 @@ class MeteoWidget extends HTMLElement {
           <span id="current-temp"></span>
         </div>
       </div>
+    </section>
+    <section class="day-timeline">
+
     </section>
     <section class="forecast">
       <ul id="forecast-list">
@@ -191,6 +217,37 @@ class MeteoWidget extends HTMLElement {
     align-items: center;
     color: white;
   }
+
+  .day-timeline {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-right: 100px;
+  }
+
+  .day-timeline .hour-item {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    padding: 7px;
+  }
+
+  .day-timeline .hour-item .icon {
+    width: 25px;
+  }
+
+  .day-timeline .hour-item .temp {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .day-timeline .hour-item .hour {
+    width: 100%;
+    flex-shrink: 0;
+    text-align: center;
+    color: #949494;
+  }
   
   #forecast-list {
     list-style: none;
@@ -236,6 +293,18 @@ class MeteoWidget extends HTMLElement {
   
   .forecast-item .temp.temp-max {
     color: #cecece;
+  }
+
+  ::-webkit-scrollbar {
+    background-color: #F5F5F5;
+  } 
+  ::-webkit-scrollbar-thumb {
+    background-color: #2d2d2f;
+    border: 1px solid #1c1c1d;
+  }
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #212121;
   }
   `;
 }
