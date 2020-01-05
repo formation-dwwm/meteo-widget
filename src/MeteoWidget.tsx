@@ -1,5 +1,5 @@
 import { IWeatherData, IForecastDayData } from './WeatherData';
-
+import JSXFactory from './JSXFactory.js';
 
 class MeteoWidget extends HTMLElement {
 
@@ -85,23 +85,23 @@ class MeteoWidget extends HTMLElement {
   }
   
   protected createForecastItemHtml(data: IForecastDayData, dayNum: number): string {
-    return `
+    return (
       <li class="forecast-item">
-        <span class="date">${data.day_long}</span>
+        <span class="date">{data.day_long}</span>
         <div class="fixed-width icon">
-          <img src="${data.icon}"/>
+          <img src={data.icon}/>
         </div>
-        <span class="fixed-width temp temp-max">${data.tmax}</span>
-        <span class="fixed-width temp temp-min">${data.tmin}</span>
+        <span class="fixed-width temp temp-max">{data.tmax}</span>
+        <span class="fixed-width temp temp-min">{data.tmin}</span>
       </li>
-    `;
+    );
   }
   
   protected handleError(err: Error): void {
     console.error(err);
   }
 
-  static TEMPLATE: string = `
+  static TEMPLATE: string = (
   <main class="weather right-ribbon">
     <section class="current-conditions">
       <div id="city-name"></div>
@@ -121,7 +121,7 @@ class MeteoWidget extends HTMLElement {
       </ul>
     </section>
   </main>
-  `;
+  );
 
   static STYLE: string = `
   * {
