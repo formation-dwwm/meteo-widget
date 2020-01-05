@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc ./src/MeteoWidget.ts --outFile ./public/js/MeteoWidget.js --target ES6",
-    "watch": "npx tsc ./src/MeteoWidget.ts --outFile ./public/js/MeteoWidget.js --target ES6 --watch",
+    "build": "npx tsc ./src/MeteoWidget.ts --outDir ./public/js --target ES6",
+    "watch": "npx tsc ./src/MeteoWidget.ts --outDir ./public/js --target ES6 --watch",
     "preserve": "npm run build",
     "serve": "npx http-server ./public",
     "dev": "npx npm-run-all --parallel serve watch",
