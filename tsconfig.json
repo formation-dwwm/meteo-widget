@@ -2,7 +2,9 @@
   "compilerOptions": {
       "target": "ES6",
       "outDir": "./public/js/",
-      "sourceMap": true
+      "sourceMap": true,
+      "inlineSourceMap": false,
+      "inlineSources": true
   },
   "include": [
       "./src/**/*"
