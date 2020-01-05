@@ -1,33 +1,37 @@
 class MeteoWidget extends HTMLElement {
 
-  cityName = "toulon";
+  protected cityName: string = "paris";
   
-  root;
-  $cityName;
-  $currentConditionIcon;
-  $currentConditionLabel;
-  $currentTemp;
-  $forecastList;
+  protected root: ShadowRoot;
+  protected $cityName: HTMLElement;
+  protected $currentConditionLabel: HTMLElement;
+  protected $currentTemp: HTMLElement;
+  protected $forecastList: HTMLElement;
+  protected $currentConditionIcon: HTMLImageElement;
 
-  static get observedAttributes() {
+  static get observedAttributes(): Array<string> {
     return ['city'];
   }
   
-  connectedCallback(){
+  public connectedCallback(){
     this.init();
-    
+
     this.updateWeather();
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
+  public attributeChangedCallback(name: string, oldValue: string, newValue: string) {
     if(name == "city" && oldValue != newValue){
-      this.cityName = newValue;
-
-      this.updateWeather();
+      this.setCity(newValue);
     }
   }
 
-  init(){
+  public setCity(cityName: string){
+    this.cityName = cityName;
+
+    this.updateWeather();
+  }
+
+  protected init(){
     this.root = this.attachShadow({mode: 'open'});
     this.root.innerHTML = `
     <style>
@@ -44,14 +48,14 @@ class MeteoWidget extends HTMLElement {
   }
 
 
-  updateWeather(){
+  protected updateWeather(){
     fetch(`https://www.prevision-meteo.ch/services/json/${this.cityName}`)
       .then(res => res.json())
       .then(data => this.updateView(data))
       .catch(err => this.handleError(err));
   }
 
-  updateView(data){
+  protected updateView(data){
     // Update current conditions
     this.$cityName.textContent = data.city_info.name;
     this.$currentTemp.textContent = data.current_condition.tmp;
@@ -61,7 +65,7 @@ class MeteoWidget extends HTMLElement {
     this.updateForecastView(data);
   }
   
-  updateForecastView(data){
+  protected updateForecastView(data){
     let html = "";
   
     for(let dayNum = 1; dayNum <= 4; ++dayNum){
@@ -73,7 +77,7 @@ class MeteoWidget extends HTMLElement {
     this.$forecastList.innerHTML = html;
   }
   
-  createForecastItemHtml(data, dayNum){
+  protected createForecastItemHtml(data, dayNum: number): string{
     return `
       <li class="forecast-item">
         <span class="date">${data.day_long}</span>
@@ -86,11 +90,11 @@ class MeteoWidget extends HTMLElement {
     `;
   }
   
-  handleError(err){
+  protected handleError(err: Error){
     console.error(err);
   }
 
-  static TEMPLATE = `
+  static TEMPLATE: string = `
   <main class="weather right-ribbon">
     <section class="current-conditions">
       <div id="city-name"></div>
@@ -112,7 +116,7 @@ class MeteoWidget extends HTMLElement {
   </main>
   `;
 
-  static STYLE = `
+  static STYLE: string = `
   * {
     box-sizing: border-box;
   }
