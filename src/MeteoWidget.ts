@@ -1,15 +1,22 @@
 class MeteoWidget extends HTMLElement {
 
   cityName = "toulon";
+  
+  root;
+  $cityName;
+  $currentConditionIcon;
+  $currentConditionLabel;
+  $currentTemp;
+  $forecastList;
 
   static get observedAttributes() {
-    return ['city', 'max'];
+    return ['city'];
   }
   
   connectedCallback(){
     this.init();
-
-    this.updateWeather("toulon");
+    
+    this.updateWeather();
   }
 
   attributeChangedCallback(name, oldValue, newValue) {

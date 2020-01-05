@@ -1,0 +1,21 @@
+{
+  "name": "meteo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc ./src/MeteoWidget.ts --outFile ./public/js/MeteoWidget.js --target ES6",
+    "watch": "npx tsc ./src/MeteoWidget.ts --outFile ./public/js/MeteoWidget.js --target ES6 --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/formation-dwwm/meteo-widget.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/formation-dwwm/meteo-widget/issues"
+  },
+  "homepage": "https://github.com/formation-dwwm/meteo-widget#readme"
+}
